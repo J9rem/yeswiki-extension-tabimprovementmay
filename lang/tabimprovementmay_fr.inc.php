@@ -12,4 +12,8 @@ return [
     "AB_bazartableau_columnswidth_field_label" => "Champ",
     "AB_bazartableau_columnswidth_width_label" => "Largeur",
     "AB_bazartableau_exportallcolumns_label" => "Exporter aussi les colonnes masquées",
+    
+    // templates/multidelete-macro.twig
+    'NUMBER_OF_ELEMENTS' => 'Nombre d\'éléments sélectionnés',
+
 ];
