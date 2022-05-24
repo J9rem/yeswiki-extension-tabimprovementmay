@@ -1,0 +1,4 @@
+td.horizontal-admins-btn {
+    display: flex;
+    flex-direction: row;
+}

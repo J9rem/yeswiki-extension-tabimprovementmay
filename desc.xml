@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<plugin name="tabimprovementmay" version="0.1" active="1">
+  <author>Jeremy Dufraisse</author>
+  <label>Tab Improvement May 2022</label>
+  <desc>Tests d'amelioration du template tableau - mai 2022</desc>
+</plugin>

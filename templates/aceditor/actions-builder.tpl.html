@@ -1,0 +1,105 @@
+<?php
+
+use YesWiki\Core\Service\AssetsManager;
+
+if (isset($data) &&
+    isset($data['action_groups']) &&
+    isset($data['action_groups']['bazarliste']) &&
+    isset($data['action_groups']['bazarliste']['actions']) &&
+    isset($data['action_groups']['bazarliste']['actions']['commons']) &&
+    isset($data['action_groups']['bazarliste']['actions']['commons']['properties'])){
+    if (isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['pagination']) &&
+        isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['pagination']['showExceptFor']) &&
+        !in_array('bazartableau',$data['action_groups']['bazarliste']['actions']['commons']['properties']['pagination']['showExceptFor'])){
+        $data['action_groups']['bazarliste']['actions']['commons']['properties']['pagination']['showExceptFor'][] =  'bazartableau';
+    }
+    if (isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['colorfield']) &&
+        isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['colorfield']['showOnlyFor']) &&
+        !in_array('bazartableau',$data['action_groups']['bazarliste']['actions']['commons']['properties']['colorfield']['showOnlyFor'])){
+        $data['action_groups']['bazarliste']['actions']['commons']['properties']['colorfield']['showOnlyFor'][] = 'bazartableau';
+    }
+    if (isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['colormapping']) &&
+        isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['colormapping']['showOnlyFor']) &&
+        !in_array('bazartableau',$data['action_groups']['bazarliste']['actions']['commons']['properties']['colormapping']['showOnlyFor'])){
+        $data['action_groups']['bazarliste']['actions']['commons']['properties']['colormapping']['showOnlyFor'][] = 'bazartableau';
+    }
+    if (isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['iconfield']) &&
+        isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['iconfield']['showOnlyFor']) &&
+        !in_array('bazartableau',$data['action_groups']['bazarliste']['actions']['commons']['properties']['iconfield']['showOnlyFor'])){
+        $data['action_groups']['bazarliste']['actions']['commons']['properties']['iconfield']['showOnlyFor'][] = 'bazartableau';
+    }
+    if (isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['iconmapping']) &&
+        isset($data['action_groups']['bazarliste']['actions']['commons']['properties']['iconmapping']['showOnlyFor']) &&
+        !in_array('bazartableau',$data['action_groups']['bazarliste']['actions']['commons']['properties']['iconmapping']['showOnlyFor'])){
+        $data['action_groups']['bazarliste']['actions']['commons']['properties']['iconmapping']['showOnlyFor'][] = 'bazartableau';
+    }
+}
+
+if (isset($data) &&
+    isset($data['action_groups']) &&
+    isset($data['action_groups']['bazarliste']) &&
+    isset($data['action_groups']['bazarliste']['actions']) &&
+    isset($data['action_groups']['bazarliste']['actions']['bazartableau'])){
+    if (isset($data['action_groups']['bazarliste']['actions']['bazartableau']['hint'])){
+        unset($data['action_groups']['bazarliste']['actions']['bazartableau']['hint']);
+    }
+    if (isset($data['action_groups']['bazarliste']['actions']['bazartableau']['properties'])){
+        if (!isset($data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['defaultcolumnwidth'])){
+            $data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['defaultcolumnwidth'] = [
+                'label' => _t('AB_bazartableau_defaultcolumnwidth_label'),
+                'hint' => _t('AB_bazartableau_defaultcolumnwidth_hint'),
+                'type' => 'text',
+                'advanced' => true,
+                'default' => '',
+            ];
+        }
+        if (!isset($data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['columnswidth'])){
+            $data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['columnswidth'] = [
+                'label' => _t('AB_bazartableau_columnswidth_label'),
+                'hint' => _t('AB_bazartableau_defaultcolumnwidth_hint'),
+                'type' => 'columns-width',
+                'advanced' => true,
+                'subproperties' => [
+                    'field' => [
+                        'label' => _t('AB_bazartableau_columnswidth_field_label'),
+                        'type' => 'form-field',
+                    ],
+                    'width' => [
+                        'label' => _t('AB_bazartableau_columnswidth_width_label'),
+                        'type' => 'text',
+                        'default' => '',
+                    ],
+                ],
+            ];
+        }
+        if (!isset($data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['exportallcolumns'])){
+            $data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['exportallcolumns'] = [
+                'label' => _t('AB_bazartableau_exportallcolumns_label'),
+                'type' => 'checkbox',
+                'advanced' => true,
+                'default' => 'false',
+            ];
+        }
+    }
+}
+
+$paths = $this->twigLoader->getPaths("aceditor");
+$paths = array_filter($paths,function($path){
+    return $path != 'tools/aceditor/presentation/templates';
+});
+$curExtDirName = basename(dirname(dirname(dirname(__FILE__))));
+$curDir = "tools/$curExtDirName/templates/aceditor";
+$paths[] = "$curDir/alternative";
+$this->twigLoader->setPaths($paths,"aceditor");
+$paths = $this->twigLoader->getPaths("aceditor");
+
+// render next following custom actions-builder.tpl.html
+$curPos = array_search($curDir,$paths);
+if ($curPos !== false) {
+    for ($i=($curPos+1); $i < count($paths); $i++) { 
+        if ($paths[$i] != $curDir && $this->hasTemplate("{$paths[$i]}/actions-builder.tpl.html")){
+            echo $this->render("{$paths[$i]}/actions-builder.tpl.html",compact(['data']));
+            break;
+        }
+    }
+}
