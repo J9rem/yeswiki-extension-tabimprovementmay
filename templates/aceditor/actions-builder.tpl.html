@@ -80,6 +80,13 @@ if (isset($data) &&
                 'default' => 'false',
             ];
         }
+        if (!isset($data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['displayimagesasthumbnails'])){
+            $data['action_groups']['bazarliste']['actions']['bazartableau']['properties']['displayimagesasthumbnails'] = [
+                'label' => _t('AB_bazartableau_displayimagesasthumbnails_label'),
+                'type' => 'checkbox',
+                'default' => 'false',
+            ];
+        }
     }
 }
 
